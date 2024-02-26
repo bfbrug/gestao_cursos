@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-22T20:20:55-0400",
+    date = "2024-02-23T21:16:09-0400",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 17.0.10 (Amazon.com Inc.)"
 )
 @Component
 public class TeacherMapperImpl implements TeacherMapper {
 
     @Override
-    public Teacher dtoToTeacher(TeacherDTO dto) {
+    public Teacher toTeacher(TeacherDTO dto) {
         if ( dto == null ) {
             return null;
         }
@@ -25,14 +25,12 @@ public class TeacherMapperImpl implements TeacherMapper {
         teacher.name( dto.getName() );
         teacher.email( dto.getEmail() );
         teacher.password( dto.getPassword() );
-        teacher.createdAt( dto.getCreatedAt() );
-        teacher.updatedAt( dto.getUpdatedAt() );
 
         return teacher.build();
     }
 
     @Override
-    public TeacherDTO teacherToDto(Teacher teacher) {
+    public TeacherDTO toDto(Teacher teacher) {
         if ( teacher == null ) {
             return null;
         }
@@ -43,8 +41,6 @@ public class TeacherMapperImpl implements TeacherMapper {
         teacherDTO.name( teacher.getName() );
         teacherDTO.email( teacher.getEmail() );
         teacherDTO.password( teacher.getPassword() );
-        teacherDTO.createdAt( teacher.getCreatedAt() );
-        teacherDTO.updatedAt( teacher.getUpdatedAt() );
 
         return teacherDTO.build();
     }

@@ -3,7 +3,6 @@ package com.bfbrug.gestao_cursos.controllers;
 import com.bfbrug.gestao_cursos.dto.TeacherDTO;
 import com.bfbrug.gestao_cursos.exceptions.NotFoundException;
 import com.bfbrug.gestao_cursos.services.TeacherService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 @RestController

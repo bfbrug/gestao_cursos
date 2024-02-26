@@ -2,7 +2,6 @@ package com.bfbrug.gestao_cursos.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TeacherDTO {
+
     private UUID id;
 
     @NotBlank()
@@ -27,7 +27,4 @@ public class TeacherDTO {
 
     @Length(min = 6, max = 50, message = "A senha deve ter entre 6 a 50 caracteres")
     private String password;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

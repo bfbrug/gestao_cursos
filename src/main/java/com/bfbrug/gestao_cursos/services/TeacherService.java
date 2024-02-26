@@ -1,5 +1,6 @@
 package com.bfbrug.gestao_cursos.services;
 
+import com.bfbrug.gestao_cursos.Records.TeacherRecord;
 import com.bfbrug.gestao_cursos.dto.TeacherDTO;
 import com.bfbrug.gestao_cursos.exceptions.TeacherFoundException;
 import com.bfbrug.gestao_cursos.mappers.TeacherMapper;
@@ -38,20 +39,21 @@ public class TeacherService {
                     throw new TeacherFoundException();
                 });
 
-        return teacherMapper.teacherToDto(teacherRepository
-                .save(teacherMapper.dtoToTeacher(teacherDTO)));
+        return teacherMapper.toDto(teacherRepository
+                .save(teacherMapper.toTeacher(teacherDTO)));
     }
+
 
     public List<TeacherDTO> listTeacher(){
         return teacherRepository.findAll()
                 .stream()
-                .map(teacherMapper::teacherToDto)
+                .map(teacherMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    public Optional<TeacherDTO> findTeacherById(UUID id){
-        return Optional.ofNullable(teacherMapper.teacherToDto(
-                teacherRepository.findById(id).orElse(null)));
+    public Optional<TeacherDTO> findTeacherById(UUID teacherId){
+        return Optional.ofNullable(teacherMapper.toDto(
+                teacherRepository.findById(teacherId).orElse(null)));
 
     }
 
@@ -68,7 +70,7 @@ public class TeacherService {
                     teacherUpdate.setEmail(teacherDTO.getEmail());
                     teacherUpdate.setPassword(teacherDTO.getPassword());
 
-                    TeacherDTO updated = teacherMapper.teacherToDto(teacherRepository.save(teacherUpdate));
+                    TeacherDTO updated = teacherMapper.toDto(teacherRepository.save(teacherUpdate));
 
                     return ResponseEntity.ok().body(updated);
 
@@ -77,12 +79,12 @@ public class TeacherService {
 
     public ResponseEntity<TeacherDTO> patchTeacherById(UUID teacherId, Map<String, Object> fields) {
 
-        TeacherDTO teacherDTO = teacherMapper.teacherToDto(teacherRepository.findById(teacherId).orElse(null));
+        TeacherDTO teacherDTO = teacherMapper.toDto(teacherRepository.findById(teacherId).orElse(null));
         TeacherDTO existingTeacher = teacherDTO;
 
         mergePatchTeacher(fields, existingTeacher);
 
-        TeacherDTO updated = teacherMapper.teacherToDto(teacherRepository.save(teacherMapper.dtoToTeacher(existingTeacher)));
+        TeacherDTO updated = teacherMapper.toDto(teacherRepository.save(teacherMapper.toTeacher(existingTeacher)));
 
         return ResponseEntity.ok().body(updated);
 
@@ -112,7 +114,6 @@ public class TeacherService {
         });
 
     }
-
 
     public Boolean deleteTeacherById(UUID teacherId){
 

@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface TeacherMapper {
 
-    Teacher dtoToTeacher(TeacherDTO dto);
+    Teacher toTeacher(TeacherDTO dto);
 
-    TeacherDTO teacherToDto(Teacher teacher);
+    TeacherDTO toDto(Teacher teacher);
 }

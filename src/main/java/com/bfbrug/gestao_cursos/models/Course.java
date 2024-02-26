@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Teacher {
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,12 +24,12 @@ public class Teacher {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
     @Column(nullable = false)
-    @Length(min = 6, max = 50, message = "A senha deve ter entre 6 a 50 caracteres")
-    private String password;
+    private String description;
+
+    private Date startCourse;
+
+    private Date finalCourse;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

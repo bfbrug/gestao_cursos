@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-23T21:16:09-0400",
+    date = "2024-02-27T20:19:05-0400",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 17.0.10 (Amazon.com Inc.)"
 )
 @Component
@@ -19,14 +19,14 @@ public class TeacherMapperImpl implements TeacherMapper {
             return null;
         }
 
-        Teacher.TeacherBuilder teacher = Teacher.builder();
+        Teacher teacher = new Teacher();
 
-        teacher.id( dto.getId() );
-        teacher.name( dto.getName() );
-        teacher.email( dto.getEmail() );
-        teacher.password( dto.getPassword() );
+        teacher.setId( dto.getId() );
+        teacher.setName( dto.getName() );
+        teacher.setEmail( dto.getEmail() );
+        teacher.setPassword( dto.getPassword() );
 
-        return teacher.build();
+        return teacher;
     }
 
     @Override

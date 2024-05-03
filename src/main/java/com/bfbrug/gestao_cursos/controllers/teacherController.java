@@ -1,8 +1,10 @@
 package com.bfbrug.gestao_cursos.controllers;
 
+import com.bfbrug.gestao_cursos.dto.CourseDTO;
 import com.bfbrug.gestao_cursos.dto.TeacherDTO;
 import com.bfbrug.gestao_cursos.exceptions.NotFoundException;
 import com.bfbrug.gestao_cursos.services.TeacherService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,45 +25,77 @@ public class teacherController {
     private TeacherService teacherService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public TeacherDTO create(@Validated @RequestBody TeacherDTO teacherDTO){
-        return teacherService.createTeacher(teacherDTO);
+    public ResponseEntity<TeacherDTO> create(@RequestBody @Valid TeacherDTO teacherDTO){
+        var savedTeacher = teacherService.createTeacher(teacherDTO);
+
+        return new ResponseEntity<>(savedTeacher, HttpStatus.CREATED);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<TeacherDTO> getCourseById(@PathVariable("id") UUID teacherId){
+        var teacherDTO = teacherService.getTeacherById(teacherId);
+
+        return ResponseEntity.ok(teacherDTO);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<TeacherDTO> list(){
-        return teacherService.listTeacher();
+    public ResponseEntity<List<TeacherDTO>> getAllTeachers(){
+
+        List<TeacherDTO> teachers = teacherService.getAllTeachers();
+        return ResponseEntity.ok(teachers);
     }
 
-    @GetMapping("/{teacherId}")
-    @ResponseStatus(HttpStatus.OK)
-    public TeacherDTO getTeacherById(@PathVariable(value = "teacherId") UUID teacherId){
-        return teacherService.findTeacherById(teacherId).orElseThrow(NotFoundException::new);
+    @PutMapping("{id}")
+    public ResponseEntity<TeacherDTO> updateTeacherById(
+            @PathVariable("id") UUID teacherId,  @RequestBody @Valid TeacherDTO teacherDTO){
+        var updateTeacherDTO = teacherService.updateTeacher(teacherId, teacherDTO);
+
+        return ResponseEntity.ok(updateTeacherDTO);
     }
 
-    @PutMapping("/{teacherId}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<TeacherDTO> updatedTeacherById(@Validated @PathVariable("teacherId") UUID teacherId, @RequestBody TeacherDTO teacher) {
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteCourseById(@PathVariable("id") UUID courseId) {
 
-        return teacherService.updateTeacherById(teacher, teacherId);
+        teacherService.deleteTeacher(courseId);
+
+        return ResponseEntity.ok("Course deleted successfully!");
     }
-
-    @PatchMapping("/{teacherId}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<TeacherDTO> patchTeacherById(@Validated @PathVariable("teacherId") UUID teacherId,  @RequestBody Map<String, Object> fieldsTeacher) {
-
-        return teacherService.patchTeacherById(teacherId, fieldsTeacher);
-    }
-
-    @DeleteMapping("/{teacherId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Object> deleteTeacherById(@PathVariable("teacherId") UUID teacherId) {
-
-        if(!teacherService.deleteTeacherById(teacherId)){
-            throw new NotFoundException();
-        }
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
+//
+//
+//    @GetMapping
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<TeacherDTO> list(){
+//        return teacherService.listTeacher();
+//    }
+//
+//    @GetMapping("/{teacherId}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public TeacherDTO getTeacherById(@PathVariable(value = "teacherId") UUID teacherId){
+//        return teacherService.findTeacherById(teacherId).orElseThrow(NotFoundException::new);
+//    }
+//
+//    @PutMapping("/{teacherId}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<TeacherDTO> updatedTeacherById(@Validated @PathVariable("teacherId") UUID teacherId, @RequestBody TeacherDTO teacher) {
+//
+//        return teacherService.updateTeacherById(teacher, teacherId);
+//    }
+//
+//    @PatchMapping("/{teacherId}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<TeacherDTO> patchTeacherById(@Validated @PathVariable("teacherId") UUID teacherId,  @RequestBody Map<String, Object> fieldsTeacher) {
+//
+//        return teacherService.patchTeacherById(teacherId, fieldsTeacher);
+//    }
+//
+//    @DeleteMapping("/{teacherId}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public ResponseEntity<Object> deleteTeacherById(@PathVariable("teacherId") UUID teacherId) {
+//
+//        if(!teacherService.deleteTeacherById(teacherId)){
+//            throw new NotFoundException();
+//        }
+//
+//        return new ResponseEntity(HttpStatus.NO_CONTENT);
+//    }
 }
